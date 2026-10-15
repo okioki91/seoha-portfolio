@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>윤서하 조명 디자인</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hahmlet:wght@300;500;700&family=IBM+Plex+Sans+KR:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: 한 줄기 세로 흐름. 히어로는 이름(좌) + 색온도 조절 패널(우), 아래로 작업 목록·경력·연락이 같은 그리드 선을 공유 */
+:root {
+  --bg: #eceef1;
+  --surface: #f7f8fa;
+  --ink: #18202c;
+  --muted: #5b6577;
+  --line: #d3d8e0;
+  --accent: #b3640a;
+  --glow: 255, 180, 107;
+  --f-display: "Hahmlet", "Nanum Myeongjo", "Batang", serif;
+  --f-body: "IBM Plex Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, "Consolas", monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0f131a; --surface: #161b24; --ink: #e5e8ed; --muted: #8e98a8; --line: #273040; --accent: #f0a443;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0f131a; --surface: #161b24; --ink: #e5e8ed; --muted: #8e98a8; --line: #273040; --accent: #f0a443;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--f-body);
+  font-size: 1rem;
+  line-height: 1.7;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.wrap { max-width: 68rem; margin: 0 auto; padding-block: 3rem 4rem; display: flex; flex-direction: column; gap: 5rem; }
+
+/* 상단 바 */
+.top { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; flex-wrap: wrap;
+  font-family: var(--f-mono); font-size: .8rem; color: var(--muted); letter-spacing: .04em; }
+.top nav { display: flex; gap: 1.25rem; flex-wrap: wrap; }
+.top a { color: inherit; text-decoration: none; }
+.top a:hover, .top a:focus-visible { color: var(--accent); }
+
+/* 히어로 */
+.hero { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 3rem; align-items: center; }
+.eyebrow { font-family: var(--f-mono); font-size: .78rem; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin: 0 0 1rem; }
+h1 { font-family: var(--f-display); font-weight: 300; font-size: clamp(3rem, 8vw, 5.5rem); line-height: 1.05; margin: 0; letter-spacing: -.02em; text-wrap: balance; }
+h1 b { font-weight: 700; }
+.lede { font-size: 1.125rem; color: var(--muted); max-width: 32rem; margin: 1.5rem 0 0; text-wrap: pretty; }
+
+.lamp { background: var(--surface); border: 1px solid var(--line); border-radius: 4px; padding: 1.5rem; display: flex; flex-direction: column; gap: 1.25rem; }
+.lamp-view { position: relative; aspect-ratio: 4 / 3; max-width: 100%; border-radius: 2px; overflow: hidden;
+  background: #0b0d11; }
+.lamp-view::before { content: ""; position: absolute; inset: 0;
+  background: radial-gradient(ellipse 55% 70% at 50% 0%, rgba(var(--glow), .95), rgba(var(--glow), .35) 45%, transparent 75%);
+  transition: background .25s ease; }
+.lamp-view::after { content: ""; position: absolute; left: 50%; top: 0; width: 34%; height: 8px; transform: translateX(-50%);
+  background: #2a2f38; border-radius: 0 0 6px 6px; }
+.lamp-read { position: absolute; left: 1rem; bottom: .9rem; font-family: var(--f-mono); font-size: .8rem; color: #e9ecf1; letter-spacing: .04em; }
+.lamp-read strong { font-size: 1.5rem; font-weight: 500; font-variant-numeric: tabular-nums; }
+.lamp label { font-size: .85rem; color: var(--muted); display: flex; justify-content: space-between; }
+.lamp input[type="range"] { width: 100%; accent-color: var(--accent); }
+.scale { display: flex; justify-content: space-between; font-family: var(--f-mono); font-size: .72rem; color: var(--muted); margin-top: -.75rem; }
+
+/* 섹션 공통 */
+section { display: grid; grid-template-columns: 12rem minmax(0, 1fr); gap: 2rem; border-top: 1px solid var(--line); padding-top: 1.5rem; }
+h2 { font-family: var(--f-display); font-weight: 500; font-size: 1.5rem; margin: 0; line-height: 1.3; }
+h2 small { display: block; font-family: var(--f-mono); font-size: .72rem; font-weight: 400; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-top: .35rem; }
+.prose p { margin: 0 0 1rem; max-width: 38rem; }
+.prose p:last-child { margin-bottom: 0; }
+
+/* 작업 목록 */
+.works { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+.work { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: .25rem 2rem; padding-block: 1.25rem; border-bottom: 1px solid var(--line); }
+.work:first-child { padding-top: 0; }
+.work h3 { font-family: var(--f-display); font-weight: 500; font-size: 1.25rem; margin: 0; }
+.work p { margin: .25rem 0 0; color: var(--muted); font-size: .95rem; max-width: 34rem; }
+.spec { font-family: var(--f-mono); font-size: .8rem; color: var(--muted); text-align: right; font-variant-numeric: tabular-nums; line-height: 1.8; white-space: nowrap; }
+.spec span { display: inline-block; width: .6rem; height: .6rem; border-radius: 50%; margin-right: .4rem; vertical-align: 0; }
+.year { font-family: var(--f-mono); font-size: .78rem; color: var(--accent); }
+
+/* 경력 */
+.career { margin: 0; display: grid; grid-template-columns: 7rem minmax(0, 1fr); gap: .9rem 1.5rem; }
+.career dt { font-family: var(--f-mono); font-size: .85rem; color: var(--muted); font-variant-numeric: tabular-nums; padding-top: .1rem; }
+.career dd { margin: 0; }
+.career dd em { font-style: normal; color: var(--muted); font-size: .9rem; display: block; }
+
+/* 연락 */
+.contact { display: flex; flex-direction: column; gap: 1rem; align-items: flex-start; }
+.mail { display: flex; flex-wrap: wrap; gap: .75rem; align-items: center; }
+.mail code { font-family: var(--f-mono); font-size: 1.15rem; user-select: all; overflow-wrap: anywhere; }
+button { font: inherit; font-size: .85rem; color: var(--ink); background: transparent; border: 1px solid var(--line);
+  border-radius: 999px; padding: .35rem .9rem; cursor: pointer; }
+button:hover { border-color: var(--accent); color: var(--accent); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.links { display: flex; gap: 1.25rem; flex-wrap: wrap; font-size: .95rem; }
+.links a { color: var(--ink); text-underline-offset: 4px; text-decoration-color: var(--line); }
+.links a:hover { text-decoration-color: var(--accent); }
+
+footer { font-family: var(--f-mono); font-size: .75rem; color: var(--muted); }
+
+@media (max-width: 760px) {
+  .wrap { gap: 3.5rem; padding-block: 2rem 3rem; }
+  .hero { grid-template-columns: minmax(0, 1fr); gap: 2rem; }
+  section { grid-template-columns: minmax(0, 1fr); gap: 1.25rem; }
+  .work { grid-template-columns: minmax(0, 1fr); }
+  .spec { text-align: left; white-space: normal; }
+  .career { grid-template-columns: 5rem minmax(0, 1fr); }
+}
+@media (prefers-reduced-motion: reduce) { .lamp-view::before { transition: none; } }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="top">
+    <span>SEOHA YOON — LIGHTING DESIGN</span>
+    <nav aria-label="페이지 내 이동">
+      <a href="#about">소개</a><a href="#works">작업</a><a href="#career">경력</a><a href="#contact">연락</a>
+    </nav>
+  </header>
+
+  <div class="hero">
+    <div>
+      <p class="eyebrow">조명 디자이너 · 서울</p>
+      <h1>빛의 온도를<br><b>설계합니다.</b></h1>
+      <p class="lede">안녕하세요, 윤서하입니다. 미술관, 카페, 작은 주택까지 사람이 머무는 공간의 밝기와 색온도를 정합니다. 밤에 더 좋아지는 공간을 만드는 게 목표입니다.</p>
+    </div>
+    <div class="lamp" aria-label="색온도 미리보기">
+      <div class="lamp-view" id="lampView">
+        <div class="lamp-read"><strong id="kOut">2700</strong> K · <span id="kName">따뜻한 백색</span></div>
+      </div>
+      <label for="kelvin"><span>색온도를 움직여 보세요</span><span id="kHint">거실·카페</span></label>
+      <input type="range" id="kelvin" min="1800" max="6500" step="100" value="2700">
+      <div class="scale"><span>1800 K</span><span>4000 K</span><span>6500 K</span></div>
+    </div>
+  </div>
+
+  <section id="about">
+    <h2>소개<small>About</small></h2>
+    <div class="prose">
+      <p>건축을 공부하다가 같은 공간이 조명 하나로 전혀 다른 곳이 되는 걸 보고 진로를 바꿨습니다. 지금은 8년째 공간 조명을 설계하고 있습니다.</p>
+      <p>밝게 만드는 것보다 어둠을 어디에 남길지를 먼저 고민합니다. 책상 위는 500 lx, 복도는 100 lx면 충분합니다. 필요한 곳에만 빛을 두면 공간이 조용해지고 전기도 덜 씁니다.</p>
+      <p>작업이 없는 날에는 필름 카메라를 들고 해 질 녘 골목을 찍으러 다닙니다.</p>
+    </div>
+  </section>
+
+  <section id="works">
+    <h2>작업<small>Selected works</small></h2>
+    <ul class="works">
+      <li class="work">
+        <div><span class="year">2025</span><h3>청운동 소리 갤러리</h3><p>도자기 상설 전시실. 유약의 질감이 살도록 측면에서 낮게 비추고, 전시대 그림자를 일부러 남겼습니다.</p></div>
+        <div class="spec"><span style="background:#ffd2a1"></span>3000 K · 200 lx<br>CRI 97 · 트랙 42개</div>
+      </li>
+      <li class="work">
+        <div><span class="year">2024</span><h3>망원동 카페 '느린물'</h3><p>저녁 매출이 낮던 카페의 조명을 바꿨습니다. 테이블마다 펜던트를 낮게 달고 천장 조명은 절반으로 줄였습니다.</p></div>
+        <div class="spec"><span style="background:#ffbb7a"></span>2400 K · 150 lx<br>디밍 4단계 · 펜던트 18개</div>
+      </li>
+      <li class="work">
+        <div><span class="year">2023</span><h3>양평 한옥 '두 마당'</h3><p>서까래와 창호지를 살리는 간접조명. 기와 아래에 선형 조명을 숨겨 마당에서 보이지 않게 했습니다.</p></div>
+        <div class="spec"><span style="background:#ffc58d"></span>2700 K · 80 lx<br>IP65 · 선형 36 m</div>
+      </li>
+      <li class="work">
+        <div><span class="year">2022</span><h3>성수 공유 작업실 '평상'</h3><p>오전에는 차가운 빛, 오후에는 따뜻한 빛으로 시간에 따라 자동으로 바뀌는 조명 시나리오를 짰습니다.</p></div>
+        <div class="spec"><span style="background:linear-gradient(90deg,#ffc58d,#f2f2ff)"></span>2700–5000 K · 500 lx<br>자동 시나리오 6개</div>
+      </li>
+    </ul>
+  </section>
+
+  <section id="career">
+    <h2>경력<small>Career</small></h2>
+    <dl class="career">
+      <dt>2021 –</dt><dd>스튜디오 반그늘 운영<em>공간 조명 설계 및 컨설팅</em></dd>
+      <dt>2018 – 2021</dt><dd>라이트웍스 서울, 선임 디자이너<em>상업 공간·호텔 로비 조명 설계</em></dd>
+      <dt>2017</dt><dd>국제조명디자이너협회(IALD) 학생 공모전 입선</dd>
+      <dt>2012 – 2017</dt><dd>한빛대학교 건축학과 졸업</dd>
+    </dl>
+  </section>
+
+  <section id="contact">
+    <h2>연락<small>Contact</small></h2>
+    <div class="contact">
+      <p class="prose" style="margin:0">작은 공간도 환영합니다. 평면도나 사진 몇 장과 함께 메일 주시면 3일 안에 답장드립니다.</p>
+      <div class="mail">
+        <code id="email">hello@bangeuneul.example</code>
+        <button type="button" id="copyBtn">주소 복사</button>
+      </div>
+      <div class="links">
+        <a href="https://www.instagram.com/" target="_blank" rel="noopener">Instagram</a>
+        <a href="https://www.behance.net/" target="_blank" rel="noopener">Behance</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>© 2026 Studio Bangeuneul · 이 페이지는 예시용 가상 인물의 소개입니다.</footer>
+</div>
+
+<script>
+(function () {
+  var input = document.getElementById('kelvin');
+  var view = document.getElementById('lampView');
+  var out = document.getElementById('kOut');
+  var name = document.getElementById('kName');
+  var hint = document.getElementById('kHint');
+
+  // 색온도(K)를 RGB로 근사 (Tanner Helland 공식)
+  function kToRgb(k) {
+    var t = k / 100, r, g, b;
+    r = t <= 66 ? 255 : 329.698727446 * Math.pow(t - 60, -0.1332047592);
+    g = t <= 66 ? 99.4708025861 * Math.log(t) - 161.1195681661 : 288.1221695283 * Math.pow(t - 60, -0.0755148492);
+    b = t >= 66 ? 255 : (t <= 19 ? 0 : 138.5177312231 * Math.log(t - 10) - 305.0447927307);
+    return [r, g, b].map(function (v) { return Math.round(Math.min(255, Math.max(0, v))); });
+  }
+  function describe(k) {
+    if (k < 2300) return ['촛불빛', '바·와인 셀러'];
+    if (k < 3100) return ['따뜻한 백색', '거실·카페'];
+    if (k < 4200) return ['중간 백색', '갤러리·상점'];
+    if (k < 5300) return ['주광 백색', '작업실·사무실'];
+    return ['차가운 주광', '검사실·공장'];
+  }
+  function update() {
+    var k = +input.value;
+    view.style.setProperty('--glow', kToRgb(k).join(', '));
+    out.textContent = k;
+    var d = describe(k);
+    name.textContent = d[0];
+    hint.textContent = d[1];
+  }
+  input.addEventListener('input', update);
+  update();
+
+  var btn = document.getElementById('copyBtn');
+  var email = document.getElementById('email');
+  btn.addEventListener('click', function () {
+    var text = email.textContent;
+    function selectIt() {
+      var r = document.createRange(); r.selectNodeContents(email);
+      var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+      btn.textContent = '선택됨, Ctrl+C로 복사';
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function () { btn.textContent = '복사됨'; }, selectIt);
+    } else { selectIt(); }
+    setTimeout(function () { btn.textContent = '주소 복사'; }, 2200);
+  });
+})();
+</script>
+</body>
+</html>
